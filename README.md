@@ -1,4 +1,4 @@
-## 🥤 쓰담쓰담 (SSUDAM-SSUDAM)
+## ♻️ 쓰담쓰담 (SSUDAM-SSUDAM)
 
 ![프로젝트 배너 또는 로고](path/to/logo.png)
 
