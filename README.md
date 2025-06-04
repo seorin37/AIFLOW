@@ -6,7 +6,7 @@
 2. **플라스틱일 경우 비닐 유무 감지**  
 3. **비닐이 없을 경우 오염도 평가 (clean / slight / heavy)**
 
-**📖 API 사용법**
+**📖 API 사용법** 
 "server.py"에 clf_model.py, ctm_model.py, vinyl_model 파일들 불러오기
 
 from clf_model import predict_material
