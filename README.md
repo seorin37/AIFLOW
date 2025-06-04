@@ -15,9 +15,9 @@ from ctm_model import predict_dirty_level
 
 플러터에서 이미지 업로드 후 예측 결과를 JSON 형식으로 반환  
 응답 형태  
-# 종이: {"result": "paper"}  
-# 비닐있는 플라스틱: {"result": "plastic_with_vinyl"}  
-# 비닐없는 플라스틱 오염도 평가: {"result": "plastic_clean" //또는 plastic_slight, plastic_heavy}  
+-종이: {"result": "paper"}  
+-비닐있는 플라스틱: {"result": "plastic_with_vinyl"}  
+-비닐없는 플라스틱 오염도 평가: {"result": "plastic_clean" //또는 plastic_slight, plastic_heavy}  
 
 
 ### 1. clf_model.py (predict_material)
