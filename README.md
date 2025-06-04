@@ -201,7 +201,7 @@
 
 | 구분       | Input 이미지 (실제)              | Ground Truth | Predicted   |
 |-----------|---------------------------------|--------------|-------------|
-| 사례 1    | ![종이 케이스]<img width="319" alt="image" src="https://github.com/user-attachments/assets/e8569bf6-0192-44af-bbce-7c3903387668" /> | paper       | paper       |
+| 사례 1    | <img width="102" alt="image" src="https://github.com/user-attachments/assets/840a29e5-4c46-4331-970e-e7326cd8e7a0" /> <img width="99" alt="image" src="https://github.com/user-attachments/assets/e8ee2c04-2752-4072-bb2b-294efc1000b4" />| paper       | paper       |
 | 사례 2    | ![플라스틱 용기](mobile_app/assets/images/example_plastic1.jpg) | plastic     | plastic     |
 
 - **결과 요약**:  
