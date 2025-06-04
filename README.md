@@ -35,7 +35,7 @@ lib/
 ├── vinyl_how.dart                 # 비닐 배출 가이드
 ├── how.dart                       # 공통 가이드 진입점
 ├── Nickname.dart                  # 닉네임 설정 및 저장 (SharedPreferences)
-pubspec.yaml                   # 의존성 정의
+pubspec.yaml                       # 의존성 정의
 ```
 
 ---
