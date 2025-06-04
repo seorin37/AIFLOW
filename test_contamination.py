@@ -17,7 +17,8 @@ mask_dir = './contamination_dataset/masks'
 # Transform
 transform = A.Compose([
     A.Resize(256, 256),
-    A.Normalize(),
+    A.Normalize(mean=(0.485, 0.456, 0.406),
+                std=(0.229, 0.224, 0.225)),
     ToTensorV2()
 ])
 
@@ -38,15 +39,25 @@ with torch.no_grad():
     for i, (img, gt) in enumerate(test_loader):
         img = img.to(device)
         pred = torch.sigmoid(model(img))
-        pred_mask = (pred > 0.5).float().cpu().squeeze().numpy()
+        pred_mask = (pred > 0.3).float().cpu().squeeze().numpy()
         gt_mask = gt.squeeze().numpy()
+
+        # 오염도 비율 및 등급 판단
+        contamination_ratio = pred_mask.mean()
+        if contamination_ratio < 0.03:
+            level = 'clean'
+        elif contamination_ratio < 0.20:
+            level = 'slight'
+        else:
+            level = 'heavy'
+
+        print(f"[Sample {i + 1}] GT sum: {gt_mask.sum()}, Pred sum: {pred_mask.sum()}")
+        print(f"[Sample {i + 1}] Contamination Ratio: {contamination_ratio:.4f} → {level}")
 
         # 시각화용 이미지 복원
         img_np = img.cpu().squeeze().permute(1, 2, 0).numpy()
         img_np = img_np * np.array([0.229, 0.224, 0.225]) + np.array([0.485, 0.456, 0.406])
         img_np = np.clip(img_np, 0, 1)
-
-        print(f"[Sample {i + 1}] GT sum: {gt_mask.sum()}, Pred sum: {pred_mask.sum()}")
 
         # 시각화 출력
         plt.figure(figsize=(12, 4))

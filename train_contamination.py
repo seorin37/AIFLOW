@@ -10,7 +10,7 @@ from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from model_contamination import get_model, BCEDiceLoss
+from model_contamination import get_model, HybridLoss
 
 # Dataset
 class SegmentationDataset(Dataset):
@@ -57,7 +57,7 @@ def compute_contamination_ratio(mask_path):
     return (mask > 0).sum() / mask.size
 
 mask_paths = sorted([os.path.join(mask_dir, f) for f in os.listdir(mask_dir)])
-labels = [1 if compute_contamination_ratio(p) > 0.01 else 0 for p in mask_paths]
+labels = [1 if compute_contamination_ratio(p) > 0.01 else 0 for p in mask_paths]    # Stratified Sampling 기준 0.05
 
 # Stratified Split
 train_idx, temp_idx = train_test_split(list(range(len(labels))), test_size=0.3, stratify=labels, random_state=42)
@@ -66,12 +66,18 @@ val_idx, test_idx = train_test_split(temp_idx, test_size=1/3, stratify=val_label
 
 # Transform
 train_transform = A.Compose([
-    A.Resize(256, 256), A.HorizontalFlip(), A.VerticalFlip(),
+    A.Resize(256, 256),
+    A.HorizontalFlip(p=0.5),
     A.ShiftScaleRotate(shift_limit=0.05, scale_limit=0.1, rotate_limit=20, p=0.5),
-    A.RandomBrightnessContrast(p=0.5), A.GaussianBlur(p=0.3),
-    A.ElasticTransform(p=0.2), A.Normalize(), ToTensorV2()
+    A.RandomBrightnessContrast(p=0.5),
+    A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+    ToTensorV2()
 ])
-val_transform = A.Compose([A.Resize(256, 256), A.Normalize(), ToTensorV2()])
+val_transform = A.Compose([
+    A.Resize(256, 256),
+    A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+    ToTensorV2()
+])
 
 full_dataset = SegmentationDataset(image_dir, mask_dir)
 train_set = Subset(full_dataset, train_idx)
@@ -89,7 +95,7 @@ val_loader = DataLoader(val_set, batch_size=BATCH_SIZE)
 
 # 모델 및 학습 설정
 model = get_model(DEVICE)
-loss_fn = BCEDiceLoss()
+loss_fn = HybridLoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=5)
 
@@ -109,6 +115,34 @@ class EarlyStopping:
             self.counter += 1
             if self.counter >= self.patience:
                 self.early_stop = True
+
+# 성능 평가 지표 (IoU, Dice, Precision, Recall)
+def compute_iou(pred, target, threshold=0.5):
+    pred = (pred > threshold).float()
+    target = (target > 0.5).float()
+    intersection = (pred * target).sum()
+    union = pred.sum() + target.sum() - intersection
+    iou = (intersection + 1e-6) / (union + 1e-6)
+    return iou.item()
+
+def compute_dice(pred, target, threshold=0.5):
+    pred = (pred > threshold).float()
+    target = (target > 0.5).float()
+    intersection = (pred * target).sum()
+    dice = (2 * intersection + 1e-6) / (pred.sum() + target.sum() + 1e-6)
+    return dice.item()
+
+def compute_precision_recall(pred, target, threshold=0.5):
+    pred = (pred > threshold).float()
+    target = (target > 0.5).float()
+
+    TP = (pred * target).sum()
+    FP = (pred * (1 - target)).sum()
+    FN = ((1 - pred) * target).sum()
+
+    precision = (TP + 1e-6) / (TP + FP + 1e-6)
+    recall = (TP + 1e-6) / (TP + FN + 1e-6)
+    return precision.item(), recall.item()
 
 # 학습 루프
 train_losses, val_losses = [], []
@@ -135,15 +169,33 @@ def main():
 
         model.eval()
         val_loss = 0
+        iou_total, dice_total = 0, 0
+        precision_total, recall_total = 0, 0
+        threshold = 0.4
+
         with torch.no_grad():
             for x, y in val_loader:
                 x, y = x.to(DEVICE), y.to(DEVICE)
                 pred = model(x)
                 val_loss += loss_fn(pred, y).item()
+
+                # 성능 지표 계산
+                iou_total += compute_iou(pred, y, threshold)
+                dice_total += compute_dice(pred, y, threshold)
+                precision, recall = compute_precision_recall(pred, y, threshold)
+                precision_total += precision
+                recall_total += recall
+
         avg_val_loss = val_loss / len(val_loader)
+        avg_val_iou = iou_total / len(val_loader)
+        avg_val_dice = dice_total / len(val_loader)
+        avg_precision = precision_total / len(val_loader)
+        avg_recall = recall_total / len(val_loader)
+
         val_losses.append(avg_val_loss)
 
         print(f"Epoch {epoch+1} | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
+        print(f"IoU: {avg_val_iou:.4f} | Dice: {avg_val_dice:.4f} | Precision: {avg_precision:.4f} | Recall: {avg_recall:.4f}")
 
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss

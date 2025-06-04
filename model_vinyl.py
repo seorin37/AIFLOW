@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import segmentation_models_pytorch as smp
 
+# Dice Loss
 class DiceLoss(nn.Module):
     def __init__(self, smooth=1e-2):
         super(DiceLoss, self).__init__()
@@ -16,16 +17,40 @@ class DiceLoss(nn.Module):
         dice_score = (2. * intersection + self.smooth) / (preds.sum() + targets.sum() + self.smooth)
         return 1 - dice_score
 
-class BCEDiceLoss(nn.Module):
-    def __init__(self):
-        super().__init__()
+# Focal Loss (Binary용)
+class FocalLoss(nn.Module):
+    def __init__(self, alpha=0.8, gamma=2):
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
         self.bce = nn.BCEWithLogitsLoss()
-        self.dice = DiceLoss()
 
     def forward(self, preds, targets):
-        return self.bce(preds, targets) + self.dice(preds, targets)
+        BCE_loss = self.bce(preds, targets)
+        pt = torch.exp(-BCE_loss)
+        focal_loss = self.alpha * (1 - pt) ** self.gamma * BCE_loss
+        return focal_loss
 
-def get_unet_model(device):
+# 혼합 손실함수: BCE + Dice + Focal
+class HybridLoss(nn.Module):
+    def __init__(self, bce_weight=0.3, dice_weight=0.4, focal_weight=0.3):
+        super(HybridLoss, self).__init__()
+        self.bce = nn.BCEWithLogitsLoss()
+        self.dice = DiceLoss()
+        self.focal = FocalLoss()
+        self.w_bce = bce_weight
+        self.w_dice = dice_weight
+        self.w_focal = focal_weight
+
+    def forward(self, preds, targets):
+        loss = (
+            self.w_bce * self.bce(preds, targets) +
+            self.w_dice * self.dice(preds, targets) +
+            self.w_focal * self.focal(preds, targets)
+        )
+        return loss
+
+def get_model(device):
     model = smp.Unet(
         encoder_name="efficientnet-b0",
         encoder_weights="imagenet",
