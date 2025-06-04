@@ -1,5 +1,5 @@
 # AIFLOW  
-### server.py - Flask 기반 이미지 분류 APIFlask 기반 이미지 분류 API  
+# server.py - Flask 기반 이미지 분류 APIFlask 기반 이미지 분류 API  
 이미지를 기반으로 아래의 3단계 분류 과정을 거쳐 **재질과 오염 상태**를 판단하는 Flask 서버  
   
 1. **종이 vs 플라스틱** 분류  
@@ -20,16 +20,16 @@ from ctm_model import predict_dirty_level
 -비닐없는 플라스틱 오염도 평가: {"result": "plastic_clean" //또는 plastic_slight, plastic_heavy}  
 
 
-### 1. clf_model.py (predict_material)
+# 1. clf_model.py (predict_material)
 from model_classification import get_model
 분류 모델 불러와서 예측하였을 때 결과를 0: plastic, 1: paper로 이진 분류함.
 
-### 2. vinyl_model.py (detect_vinyl)
+# 2. vinyl_model.py (detect_vinyl)
 from model_vinyl import get_model
 
 비닐 감지 모델 불러와서 예측하였을 때 vinyl_ratio>=0.02면, return True(비닐 있음).
 
-### 2. ctm_model.py (predict_dirty_level)
+# 2. ctm_model.py (predict_dirty_level)
 from model_contamination import get_model
 
 오염도 예측 모델 불러와서 예측하였을 때
