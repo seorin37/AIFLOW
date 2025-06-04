@@ -212,9 +212,9 @@
 
 | 구분             | Input 이미지                | Ground Truth Mask             | Predicted Mask                |
 |-----------------|----------------------------|-------------------------------|-------------------------------|
-| 비닐 포함 케이스 | ![image](https://github.com/user-attachments/assets/ed050a3d-bc85-4ba5-96d0-41dfbcde8e2f)| ![image](https://github.com/user-attachments/assets/3567916b-ddad-4e36-a3cc-8c7f9a296786)
-| ![Pred](mobile_app/assets/images/mask_vinyl1_pred.png) |
-| 비닐 없음 케이스 | ![비닐 없음](mobile_app/assets/images/example_vinyl2.jpg) | (검은색 이미지)               | (검은색 이미지)               |
+| 비닐 포함 케이스 | ![image](https://github.com/user-attachments/assets/ed050a3d-bc85-4ba5-96d0-41dfbcde8e2f)| ![image](https://github.com/user-attachments/assets/3567916b-ddad-4e36-a3cc-8c7f9a296786)| ![image](https://github.com/user-attachments/assets/460fe7e2-4901-4883-bb7f-b66090d0d434)|
+| 비닐 없음 케이스 | <img width="126" alt="image" src="https://github.com/user-attachments/assets/f11243a8-e2ec-420b-9acb-e26945f6b2c6" />|<img width="128" alt="image" src="https://github.com/user-attachments/assets/ebbd4550-8dff-4811-a3fa-ae0e868a4e2a" />| <img width="128" alt="image" src="https://github.com/user-attachments/assets/88352b2c-e88f-4e6e-a349-694a8c2e8bf4" />
+ |
 
 - **평가 지표**  
   - Validation IoU: 0.4199  
