@@ -112,6 +112,8 @@
 
 ## ➡️ 데이터 전처리
 
+데이터셋 (구글 드라이브) : https://drive.google.com/drive/folders/1YI7Riz41jzbPYZoDVGUnVra6dOcSZTpq?usp=drive_link
+
 1. **직접 촬영 (Raw Data Collection)**  
    - **플라스틱/종이 분류 모델**  
      - 플라스틱: 244장  
