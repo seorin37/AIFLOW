@@ -19,7 +19,7 @@ from model_vinyl import get_model
 from model_contamination import get_model
 
 오염도 예측 모델 불러와서 예측하였을 때
-contamination을 오염도 기준 분류 함수(classify_contamination)에 따라서 clean, slight, heavy로 구분함.
+contamination을 오염도 기준 분류 함수(classify_contamination)에 따라서 "clean, slight, heavy"로 구분함.
 
 def classify_contamination(contamination: float) -> str:
     if contamination < 0.01:
