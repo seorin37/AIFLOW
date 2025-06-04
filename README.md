@@ -202,7 +202,7 @@
 | 구분       | Input 이미지 (실제)              | Ground Truth | Predicted   |
 |-----------|---------------------------------|--------------|-------------|
 | 사례 1    | <img width="102" alt="image" src="https://github.com/user-attachments/assets/840a29e5-4c46-4331-970e-e7326cd8e7a0" /> <img width="99" alt="image" src="https://github.com/user-attachments/assets/e8ee2c04-2752-4072-bb2b-294efc1000b4" />| paper       | paper       |
-| 사례 2    | ![플라스틱 용기](mobile_app/assets/images/example_plastic1.jpg) | plastic     | plastic     |
+| 사례 2    | <img width="101" alt="image" src="https://github.com/user-attachments/assets/d612aef4-6e62-4bd1-bbbc-af1e0e13eb4c" /> <img width="99" alt="image" src="https://github.com/user-attachments/assets/d17f432f-91b2-452e-bf2f-bee9a9d87a03" />| plastic     | plastic     |
 
 - **결과 요약**:  
   - Validation Accuracy: 100% (경우에 따라 데이터셋 불균형 이슈 보완 필요)  
