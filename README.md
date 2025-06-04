@@ -32,7 +32,7 @@ lib/
 ├── vinyl_how.dart                 # 비닐 배출 가이드
 ├── how.dart                       # 공통 가이드 진입점
 ├── Nickname.dart                  # 닉네임 설정 및 저장 (SharedPreferences)
-pubspec.yaml                   # 의존성 정의
+pubspec.yaml                       # 의존성 정의
 ```
 
 ---
@@ -173,39 +173,3 @@ flutter run
 - [ ] 점수제 도입 및 사용자 참여 유도
 - [ ] 결과 화면 UI 개선 및 반응형 지원
 
-## 🧩 코드별 주요 기능 요약
-
-| 파일명 | 주요 기능 | 비고 / 특이사항 |
-|--------|-----------|------------------|
-| `main.dart` | 앱 진입점 (MyApp 위젯 실행) | `MaterialApp`, 라우팅 정의 포함 |
-| `Mainpage.dart` | 메인 홈 화면 UI 구성 | 닉네임 표시, HOW 버튼, CAMERA 버튼 포함 |
-| `Nickname.dart` | 닉네임 입력 화면 | `SharedPreferences` 사용하여 로컬 저장 |
-| `camera_screen.dart` | 카메라 촬영 + 이미지 서버 전송 | `camera` 패키지, `http.MultipartRequest` 사용 |
-| `loading.dart` | 결과 대기 (로딩) 화면 | 서버 응답 대기 중 로딩 애니메이션 가능 |
-| `CleanResult.dart` | “깨끗함” 결과 페이지 | 재활용 가능 메시지 + 홈 이동 버튼 |
-| `SlightDirtyResult.dart` | “약간 오염됨” 결과 페이지 | 기준 참고 메시지 출력 |
-| `DirtyResult.dart` | “심각히 오염됨” 결과 페이지 | 재활용 불가 안내 표시 |
-| `VinylResult.dart` | 비닐 검출 시 결과 페이지 | 비닐 제거 권장 메시지 출력 |
-| `paper1.dart` | 종이 관련 결과 화면 | 오염되지 않은 종이만 가능 강조 |
-| `how.dart` | 가이드 진입 선택 화면 | 3가지 버튼: PLASTIC, PAPER, VINYL |
-| `plastic_how.dart` | 플라스틱 배출 가이드 | 플라스틱 병류 세척/배출 기준 안내 |
-| `paper_how.dart` | 종이 배출 가이드 | 전단지/신문지/포장지 기준 설명 |
-| `vinyl_how.dart` | 비닐 배출 가이드 | 일반/투명 비닐 분리배출 기준 안내 |
-| `pubspec.yaml` | 의존성 관리 | `camera`, `http`, `shared_preferences` 등 포함 |
-
----
-
-### 🔎 보충 설명
-
-- **카메라 구현**
-  - `camera_screen.dart`에서 `CameraController`로 실시간 영상 피드 제공
-  - 버튼 클릭 시 이미지 캡처 → 서버 전송 → 결과값 받아 `Navigator.push`
-
-- **결과 분기 처리**
-  - 서버로부터 `"clean"`, `"slight_dirty"`, `"dirty"`, `"vinyl"` 등 응답값을 받아 각각 다른 결과 페이지로 이동
-
-- **닉네임 저장**
-  - `Nickname.dart`에서 `SharedPreferences`에 저장한 닉네임은 `Mainpage.dart`에서 불러와 사용자 표시
-
-- **가이드 페이지**
-  - `how.dart`는 단일 진입점 역할을 하며, 소재별 `.dart` 파일로 연결됨
