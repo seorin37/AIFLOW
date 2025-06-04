@@ -112,7 +112,9 @@
 
 ## ➡️ 데이터 전처리
 
+
 데이터셋 (구글 드라이브) : https://drive.google.com/drive/folders/1YI7Riz41jzbPYZoDVGUnVra6dOcSZTpq?usp=drive_link
+
 
 1. **직접 촬영 (Raw Data Collection)**  
    - **플라스틱/종이 분류 모델**  
@@ -199,7 +201,7 @@
 
 | 구분       | Input 이미지 (실제)              | Ground Truth | Predicted   |
 |-----------|---------------------------------|--------------|-------------|
-| 사례 1    | ![종이 케이스](mobile_app/assets/images/example_paper1.jpg) | paper       | paper       |
+| 사례 1    | ![종이 케이스]<img width="319" alt="image" src="https://github.com/user-attachments/assets/e8569bf6-0192-44af-bbce-7c3903387668" /> | paper       | paper       |
 | 사례 2    | ![플라스틱 용기](mobile_app/assets/images/example_plastic1.jpg) | plastic     | plastic     |
 
 - **결과 요약**:  
