@@ -212,7 +212,8 @@
 
 | 구분             | Input 이미지                | Ground Truth Mask             | Predicted Mask                |
 |-----------------|----------------------------|-------------------------------|-------------------------------|
-| 비닐 포함 케이스 | ![비닐 포함](mobile_app/assets/images/example_vinyl1.jpg) | ![GT 마스크](mobile_app/assets/images/mask_vinyl1_gt.png) | ![Pred](mobile_app/assets/images/mask_vinyl1_pred.png) |
+| 비닐 포함 케이스 | ![image](https://github.com/user-attachments/assets/ed050a3d-bc85-4ba5-96d0-41dfbcde8e2f)| ![image](https://github.com/user-attachments/assets/3567916b-ddad-4e36-a3cc-8c7f9a296786)
+| ![Pred](mobile_app/assets/images/mask_vinyl1_pred.png) |
 | 비닐 없음 케이스 | ![비닐 없음](mobile_app/assets/images/example_vinyl2.jpg) | (검은색 이미지)               | (검은색 이미지)               |
 
 - **평가 지표**  
