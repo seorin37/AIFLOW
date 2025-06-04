@@ -6,9 +6,9 @@ import torchvision.transforms as transforms
 import numpy as np
 import io
 
-from model_effnet import predict_material
-from model_vinyl import detect_vinyl
-from model_dirty import predict_dirty_level
+from clf_model import predict_material
+from vinyl_model import detect_vinyl
+from ctm_model import predict_dirty_level
 
 app = Flask(__name__)
 
