@@ -1,7 +1,9 @@
 # ♻️ 쓰담쓰담 (SSUDAM-SSUDAM)
 
+<p align="center">
+  <img width="133" alt="image" src="https://github.com/user-attachments/assets/04261baa-e47a-4638-911f-7aef41935e57" />
+</p>
 
-<img width="133" alt="image" src="https://github.com/user-attachments/assets/04261baa-e47a-4638-911f-7aef41935e57" />
 
 ---  
 
@@ -22,8 +24,8 @@
 10. [데이터셋 구성](#데이터셋-구성)
 11. [사용 예시 (Usage Example)](#사용-예시-usage-example)
 12. [라이선스](#라이선스)
-13. [컨트리뷰터](#컨트리뷰터)
-14. [연락처](#연락처)
+
+
 
 ---
 
