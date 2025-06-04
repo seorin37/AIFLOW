@@ -1,129 +1,281 @@
-## ♻️ 쓰담쓰담 (SSUDAM-SSUDAM)
-
-![프로젝트 배너 또는 로고](path/to/logo.png)
-
----
-  
-## 📌 프로젝트 개요
-
-**프로젝트명:** 쓰담쓰담  
-**팀명:** AIFlOW  
-**팀원:**  
-- 홍길동 (팀장)  
-- 김철수 (백엔드, 모델)  
-- 이영희 (프론트엔드, UI/UX)  
-- … (추후 추가)  
-
-**개발 기간:** 2025.03.25 ~ 2025.06.10  
-
-**프로젝트 소개:**  
-> 배달용기의 재질과 오염도를 인공지능으로 판별하여  
-> 사용자가 정확한 분리수거 방법을 손쉽게 알 수 있도록 돕는  
-> AI 기반 분리수거 가이드 애플리케이션입니다.  
+# ♻️ 쓰담쓰담 (SSUDAM-SSUDAM)
 
 
+<img width="133" alt="image" src="https://github.com/user-attachments/assets/04261baa-e47a-4638-911f-7aef41935e57" />
 
----
+---  
 
-## 🎯 목표 및 배경
+## 📌 목차
 
-1. **서비스 목적**  
-   - 배달 주문량 증가로 인해 배달용기를 어떻게 분리수거해야 하는지 혼란을 겪는 사용자에게  
-     사진 한 장으로 ‘플라스틱 vs 종이 vs 비닐’, 그리고 ‘오염도(이염도)’ 정보를 제공  
-   - 최종적으로 지역별 분리수거 규정에 맞춘 가이드까지 추천
-
-2. **사용 대상**  
-   - 분리수거 기준이 헷갈리거나 익숙하지 않은 일반 사용자  
-   - 특히 배달·포장 문화가 발달한 도심 거주자 및 1인 가구를 주요 타깃으로 설정  
-
-3. **주요 기능 요약**  
-   1. 카메라 촬영을 통한 실시간 AI 분류(플라스틱/종이/비닐)  
-   2. 오염도(이염도) 판별:  
-      - 비닐 동봉 여부  
-      - 플라스틱 표면 오염(남은 음식물, 기름) 유무  
-   3. 지역별 분리수거 규정 안내(추후 연동 예정)  
-   4. 사용자가 촬영한 이미지 수집·라벨링(마스크 포함) 자동화  
-   5. Flutter/Dart 기반 모바일 UI 구현  
-
+1. [프로젝트 개요](#프로젝트-개요)
+2. [팀원 소개](#팀원-소개)
+3. [프레임워크 및 워크플로우](#프레임워크-및-워크플로우)
+4. [오염도 기준](#오염도-기준)
+5. [데이터 전처리](#데이터-전처리)
+6. [모델 소개](#모델-소개)
+   - [종이/플라스틱 분류](#종이플라스틱-분류)
+   - [비닐 검출](#비닐-검출)
+   - [오염도 평가](#오염도-평가)
+7. [성과 및 결과](#성과-및-결과)
+8. [향후 계획](#향후-계획)
+9. [설치 및 실행 방법](#설치-및-실행-방법)
+10. [데이터셋 구성](#데이터셋-구성)
+11. [사용 예시 (Usage Example)](#사용-예시-usage-example)
+12. [라이선스](#라이선스)
+13. [컨트리뷰터](#컨트리뷰터)
+14. [연락처](#연락처)
 
 ---
 
-## 📌 기술 스택
+## 프로젝트 개요
 
-- **환경 (Environment)**  
-  - IDE: Visual Studio Code  
-  - 버전 관리: Git, GitHub  
-  - 커뮤니케이션: Notion, Zoom  
+**서비스 목적**  
+- 배달용기 분리수거 기준이 헷갈리는 사용자에게  
+  `사진 한 장으로 재질(플라스틱/종이/비닐)`과 `오염도(깨끗/약간/심함)` 정보를 제공하여  
+  올바른 분리수거 방법을 제시합니다.  
+- 친환경 생활을 유도하고, 향후 포인트 제도나 배달 플랫폼 제휴를 통해 서비스 확장을 염두에 둡니다.
 
-- **개발 (Development)**  
-  - AI 프레임워크: PyTorch  
-  - 모바일 앱: Flutter, Dart  
-  - 백엔드 서버(추후 확장): FastAPI (예정)  
-  - 데이터베이스(추후 확장): Firebase Firestore (예정)  
+**대상 고객**  
+- 분리수거 기준이 헷갈리거나 익숙하지 않은 일반 사용자  
+- 1인 가구, 배달·포장 문화가 발달한 도심 거주자
+
+**프로젝트 내용**  
+- AI 기반 ⟪분리수거 가이드 어플리케이션⟫ 개발  
+  - **사진 기반 실시간 판별**  
+  - 배달용기의 재질 및 오염도(이염도)를 이미지로 분석  
+- Flutter/Dart를 활용한 모바일 UI 구현 (+Figma 디자인 시안)  
+- PyTorch/Scikit-Learn 기반 학습 파이프라인 구축  
+- Flask 서버(추후 FastAPI 전환 예정)로 모델 추론 API 제공  
+
+---
+
+## 팀원 소개
+
+| 팀원    | 역할         | 담당 분야         |
+|---------|--------------|------------------|
+| 최서정  | 팀 리더      | AI(오염도), Back-end (Flask)  |
+| 박혜원  | 서브리더     | AI(비닐), Front-end (Flutter) |
+| 신서현  | AI 엔지니어  | AI(비닐), Front-end (Flutter), 디자인(Figma) |
+| 엄서린  | AI 엔지니어  | AI(오염도), Back-end (Flask)  |
+| 장수진  | AI 엔지니어  | AI(비닐), Front-end (Flutter) |
+| 황재윤  | AI 엔지니어  | AI(오염도), Back-end (Flask)  |
+
+---
+
+## 프레임워크 및 워크플로우
+
+### 사용 기술 스택
 
 - **디자인 (Design)**  
-  - UI/UX: Figma  
-  - 아이콘: Material Icons, 자체 제작 PNG/SVG  
+  - Figma: UI/UX 시안 작성  
+
+- **프론트엔드 (Front-end)**  
+  - Flutter (Dart): 안드로이드/iOS 공용 앱 개발  
+
+- **백엔드 (Back-end)**  
+  - Flask (Python): 모델 추론 API 제공 (추후 FastAPI 전환 예정)  
+
+- **AI 모델 (AI Models)**  
+  - PyTorch: Classification 및 Segmentation 모델 학습  
+  - Scikit-Learn: 추가 전처리/분류 모듈 활용  
+
+### 워크플로우 (4단계)
+
+1. **이미지 인식 (카메라 구동)**  
+   - Flutter 앱에서 카메라 화면을 띄우고, 사용자가 배달용기 사진을 촬영하면  
+     해당 이미지를 서버(Flask)로 전송  
+2. **플라스틱/종이 분류**  
+   - 서버 측에서 전처리 후 `EfficientNet-B0` 기반 분류기로 “플라스틱” 또는 “종이” 판별  
+3. **비닐 O/X 검출**  
+   - 분류된 플라스틱 이미지에 대해 비닐 포함 여부를 **Segmentation** 모델로 예측  
+   - 비닐 O → 일반 쓰레기, 비닐 X → 플라스틱 재활용  
+4. **오염도 평가**  
+   - 분류된 재질(플라스틱/종이) 영역에서 **오염도(이염도)** Segmentation을 수행  
+   - 결과값에 따라 `Clean / Slight / Heavy` 세 가지 단계로 구분  
 
 ---
 
-## 🔍 파일 및 디렉터리 구조 (예시)
+## 오염도 기준
 
-> **Tip:** 실제 저장소 구조에 맞춰 디렉터리 이름이나 파일명을 조정하세요.
+| 번호 | 지역     | 오염도 기준                                  |
+|:----:|:--------:|:--------------------------------------------|
+|  1   | 마포구   | 깨끗이 세척 후 이물질이 없는 정도            |
+|  2   | 송파구   | 깨끗이 세척 후 이물질이 없는 정도            |
+|  3   | 안양시   | 깨끗이 세척 후 **완벽하게 깨끗한** 정도      |
+|  4   | 화성시   | 깨끗이 세척 후 폐기. **이염된 정도는 OK**    |
 
----
-
-## 🚀 주요 기능 (Features)
-
-1. **이미지 라벨링/마스크 처리 (Data Labeling)**  
-   - 배달용기(플라스틱, 종이)와 오염도 라벨링  
-   - Python + OpenCV 기반 자동 마스크 생성 스크립트  
-
-2. **종이 vs 플라스틱 분류 모델 (Paper vs Plastic Classifier)**  
-   - 이미지 전처리(Resize, Normalize) 후 PyTorch 모델 학습  
-   - `models/classification/train_script.py`에서 학습 파이프라인 구현  
-   - Test Accuracy: xx.xx% (2025.06 기준)
-
-3. **플라스틱 내 비닐 동봉 여부 분류 모델 (Vinyl Detection)**  
-   - 플라스틱 영역에서 비닐 유무 판별  
-   - 배경 제거 후 특징 추출(FEATURE_MAP) → 이진 분류  
-
-4. **플라스틱 오염도(이염도) 판별 모델 (Dirt/Contamination Detector)**  
-   - “깨끗함(재활용 가능)” vs “매우 더러움(재활용 불가)” 구분  
-   - Sobel Edge Filter 기반 엣지 검출 → 오염도 점수화  
-
-5. **카메라 실시간 촬영 및 서버 전송 (Camera & API)**  
-   - Flutter 기반 카메라 화면 구현 (`mobile_app/lib/screens/camera_screen.dart`)  
-   - 촬영된 이미지를 서버(또는 로컬 PyTorch 추론 엔드포인트)로 전송  
-   - 전송 후 분류 결과 리턴 → 결과 화면(`result_screen.dart`)에 표시  
-
-6. **UI/UX 디자인 (Design)**  
-   - 심플한 친환경 컬러 팔레트(연녹색)  
-   - 직관적인 아이콘 배치 (Figma 디자인 시안 첨부)  
-   - 로딩 화면, 로그인 화면, 분리수거 가이드 화면 등 전체 흐름 설계  
-
+- 실제 서비스에서는 사용자가 위치(지역)를 선택하거나  
+  GPS 기반으로 자동 인식하여 해당 지역의 `오염도 기준`을 적용할 예정입니다.
 
 ---
 
-## 📸 스크린샷 (Screenshots)
+## 데이터 전처리
 
-### 1) Splash & Login
+1. **직접 촬영 (Raw Data Collection)**  
+   - **플라스틱/종이 분류 모델**  
+     - 플라스틱: 244장  
+     - 종이: 75장  
+   - **비닐 검출 모델**: 430장  
+   - **오염도 평가 모델**: 507장  
 
-| Splash 화면 (로고) | 로그인 화면 |
-|:-----------------:|:----------:|
-| <img src="mobile_app/assets/images/splash.png" width="200"/> | <img src="mobile_app/assets/images/login.png" width="200"/> |
+2. **라벨링 (Labeling)**  
+   - LabelMe 사용  
+   - **비닐 & 오염된 부분**: Object 클래스 = 1, 나머지 = 0  
+   - 폴리곤(polygon) 형식으로 이미지 라벨링 후 JSON 내보내기  
 
-### 2) 메인 & 카메라 촬영
+3. **마스크 생성 (Mask Creation)**  
+   - <u>비닐</u>  
+     - 비닐 영역을 흰색(255), 나머지 배경을 검은색(0)으로 마스크  
+   - <u>플라스틱/오염도</u>  
+     - 오염도(segmentation) 영역을 흰색, 나머지를 검은색으로 마스크  
+   - U-Net 기반 모델을 사용하여 픽셀 단위 Segmentation Mask 연산  
 
-| 메인 화면 (사용자 ID) | 카메라 촬영 화면 |
-|:-------------------:|:----------------:|
-| <img src="mobile_app/assets/images/main.png" width="200"/> | <img src="mobile_app/assets/images/camera.png" width="200"/> |
+4. **데이터 증강 (Data Augmentation)**  
+   - 좌우 반전(Flip), 상하 반전(Flip)  
+   - 수평/수직 이동(Translation)  
+   - 확대(Zoom in) / 축소(Zoom out)  
+   - 밝기(Brightness) & 대비(Contrast) 무작위(Random) 조절  
 
-### 3) 분리수거 가이드 (결과 화면)
+---
 
-| 플라스틱 깨끗함 | 플라스틱 오염 | 비닐 포함 | 종이 |
-|:-------------:|:----------:|:-------:|:---:|
-| <img src="mobile_app/assets/images/clean1.png" width="150"/> | <img src="mobile_app/assets/images/dirty1.png" width="150"/> | <img src="mobile_app/assets/images/vinyl1.png" width="150"/> | <img src="mobile_app/assets/images/paper1.png" width="150"/> |
+## 모델 소개
 
-> **Tip:** `mobile_app/assets/images/` 폴더에 실제 캡처 이미지를 추가하고, 경로를 맞춰주세요. 
+### 종이/플라스틱 분류
 
+- **모델 아키텍처**: EfficientNet-B0 (pretrained on ImageNet)  
+- **하이퍼파라미터**  
+  - Batch size: 8  
+  - Epoch: 30  
+- **성능(Validation 셋 기준)**  
+  - **Accuracy:** 1.0000 (100%)  
+  - **Loss:** 0.0199  
+- **선택 이유**  
+  - 비교 실험 결과, EfficientNet-B0이 데이터셋 크기 대비  
+    빠른 수렴(Convergence)과 높은 정확도를 보였음  
+  - 모델 파라미터 수가 적당하여 Flutter 앱 내 서버 응답 속도 향상  
+
+---
+
+### 비닐 검출 (Segmentation)
+
+- **모델 아키텍처**: EfficientNet-B0 기반 U-Net 형태  
+- **하이퍼파라미터**  
+  - Batch size: 4  
+  - Epoch: 60  
+- **성능 (Validation Loss 기준)**  
+  - **Loss:** 0.2674  
+  - **IoU (Intersection over Union):** 0.4199  
+  - **Dice Coefficient:** 0.5699  
+- **선택 이유**  
+  - 충분한 학습량(430장) 대비 U-Net + EfficientNet이 전체적으로  
+    균형 잡힌 학습 곡선 및 안정적인 Segmentation 결과를 보여줌  
+  - IoU & Dice가 일정 수준 이상으로 수렴하여 실사용 가능 판별  
+
+---
+
+### 오염도 평가 (Contamination Segmentation)
+
+- **모델 아키텍처**: EfficientNet-B0 기반 U-Net  
+- **하이퍼파라미터**  
+  - Batch size: 4  
+  - Epoch: 60  
+- **성능 (Validation Loss 기준)**  
+  - **Loss:** 0.1679  
+  - **IoU (Intersection over Union):** 0.7288  
+  - **Dice Coefficient:** 0.8314  
+- **선택 이유**  
+  - 플라스틱/종이 품목별 오염 면적 계산에 적합한 **High IoU** 구현  
+  - Dice Coefficient가 매우 높아, 실제 `깨끗 / 약간 / 심함` 분류에  
+    사용할 수 있는 정량적 근거 확립  
+
+---
+
+## 성과 및 결과
+
+### 1) 종이/플라스틱 분류
+
+| 구분       | Input 이미지 (실제)              | Ground Truth | Predicted   |
+|-----------|---------------------------------|--------------|-------------|
+| 사례 1    | ![종이 케이스](mobile_app/assets/images/example_paper1.jpg) | paper       | paper       |
+| 사례 2    | ![플라스틱 용기](mobile_app/assets/images/example_plastic1.jpg) | plastic     | plastic     |
+
+- **결과 요약**:  
+  - Validation Accuracy: 100% (경우에 따라 데이터셋 불균형 이슈 보완 필요)  
+  - 오차 없이 플라스틱/종이를 정확히 구분함  
+
+### 2) 비닐 검출 (Segmentation)
+
+| 구분             | Input 이미지                | Ground Truth Mask             | Predicted Mask                |
+|-----------------|----------------------------|-------------------------------|-------------------------------|
+| 비닐 포함 케이스 | ![비닐 포함](mobile_app/assets/images/example_vinyl1.jpg) | ![GT 마스크](mobile_app/assets/images/mask_vinyl1_gt.png) | ![Pred](mobile_app/assets/images/mask_vinyl1_pred.png) |
+| 비닐 없음 케이스 | ![비닐 없음](mobile_app/assets/images/example_vinyl2.jpg) | (검은색 이미지)               | (검은색 이미지)               |
+
+- **평가 지표**  
+  - Validation IoU: 0.4199  
+  - Validation Dice: 0.5699  
+- **결과 요약**  
+  - 비닐이 있는 경우, Mask 영역이 적절히 검출됨.  
+  - 검출 실패(비닐 없음) 시, Predicted Mask가 모두 0으로 나와 정상 동작 확인.
+
+### 3) 오염도 평가
+
+| 구분             | Input 이미지                | Ground Truth Mask             | Predicted Mask                |
+|-----------------|----------------------------|-------------------------------|-------------------------------|
+| 오염(진한) 사례 | ![오염 사례](mobile_app/assets/images/example_dirt1.jpg) | ![GT](mobile_app/assets/images/mask_dirt1_gt.png) | ![Pred](mobile_app/assets/images/mask_dirt1_pred.png) |
+| 오염(깨끗) 사례 | ![깨끗 사례](mobile_app/assets/images/example_clean1.jpg) | (검은색 이미지)               | (검은색 이미지)               |
+
+- **평가 지표**  
+  - Validation IoU: 0.7288  
+  - Validation Dice: 0.8314  
+- **결과 요약**  
+  - 오염도(이염도) Segmentation 성능이 높아,  
+    `깨끗 / 약간 / 심함` 구분 기준을 충분히 만족함.  
+
+---
+
+## 향후 계획
+
+1. **모델 성능 개선**  
+   - **데이터 다양성 확대**:  
+     - 전국 주요 지자체(서울시·경기도·인천·대전 등) 쓰레기 분리수거 기준 수집  
+     - 다양한 각도, 조명, 배경을 포함한 배달용기 이미지 확보  
+   - **모델 업그레이드**:  
+     - 최신 Segmentation(예: DeepLabV3+, Mask R-CNN) 등 아키텍처 실험  
+     - 하이퍼파라미터 튜닝(학습률 스케줄러, 앙상블 등)
+
+2. **서비스 확장**  
+   - **기능 영역 확장**:  
+     - 배달용기 외에 “커피컵/테이크아웃 컵”  
+     - 택배 박스, 의류 포장(플라스틱 필름) 판별  
+   - **포인트 제도 연동**:  
+     - 분리수거 실천 시 사용자에게 인앱 포인트 지급  
+     - 제휴된 배달 플랫폼(예: 배달의민족, 쿠팡이츠)과 협업
+
+3. **정책/사회적 확장**  
+   - **지자체 & 환경부 제휴**:  
+     - 스마트 분리수거 기기(음성 안내/자동 분류) 개발  
+     - 재활용 가능 품목 자동 분류 허브 구현  
+   - **교육 및 캠페인 연계**:  
+     - 초·중·고교, 지역 커뮤니티와 협업하여  
+       분리수거 교육 콘텐츠 제작  
+
+---
+
+## 설치 및 실행 방법
+
+아래 절차는 로컬 환경에서 **모델 서버(Flask)** 와 **Flutter 앱**을 동시에 실행하는 예시입니다.
+
+### 1. 필수 요구사항
+
+- Python 3.8 이상  
+- PyTorch 1.12 이상  
+- Flutter SDK ≥ 3.0  
+- Android Studio / Xcode (에뮬레이터 또는 실제 기기 실행용)  
+
+---
+
+### 2. 저장소 클론
+
+```bash
+$ git clone https://github.com/<GitHub-계정>/SSUDAM-SSUDAM.git
+$ cd SSUDAM-SSUDAM
