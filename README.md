@@ -227,7 +227,7 @@
 
 | 구분             | Input 이미지                | Ground Truth Mask             | Predicted Mask                |
 |-----------------|----------------------------|-------------------------------|-------------------------------|
-| 오염(진한) 사례 | ![오염 사례](mobile_app/assets/images/example_dirt1.jpg) | ![GT](mobile_app/assets/images/mask_dirt1_gt.png) | ![Pred](mobile_app/assets/images/mask_dirt1_pred.png) |
+| 오염(진한) 사례 | ![오염 사례](mobile_app/assets/images/example_dirt1.jpg) | ![GT](mobile_app/assets/images/mask_dirt1_gt.png) | <img width="124" alt="image" src="https://github.com/user-attachments/assets/722b3065-9e4e-4f2b-b3d2-295b7cfc131c" />|
 | 오염(깨끗) 사례 | ![깨끗 사례](mobile_app/assets/images/example_clean1.jpg) | (검은색 이미지)               | (검은색 이미지)               |
 
 - **평가 지표**  
