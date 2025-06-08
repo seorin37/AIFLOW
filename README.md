@@ -2,11 +2,11 @@
 
 <p align="center">
   <img width="133" alt="image" src="https://github.com/user-attachments/assets/04261baa-e47a-4638-911f-7aef41935e57" />
-  ![image](https://github.com/user-attachments/assets/a06ac541-6fcf-4cf9-95e9-a1e8f8f2ef15)
-
 </p>
 
-
+<p align="center">
+ ![image](https://github.com/user-attachments/assets/ce5840b2-7394-47ba-ab4d-92574ff5e502)
+  </p>
 ---  
 
 ## 📌 목차
