@@ -10,7 +10,10 @@
 </p>
 
 ## 📁 파일 구조
-
+- main ( 프로젝트 설명 - readme)
+- AI_model ( 분류 ai 모델, 오염도 측정 ai 모델) 
+- Backend  ( ai 모델과 frontend와의 연결 코드파일)
+- Frontend  ( 앱의 frontend 코드파일 - 카메라 및 디자인 등)
 
 ## 📌 목차
 
