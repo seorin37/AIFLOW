@@ -4,6 +4,7 @@
   <img width="133" alt="image" src="https://github.com/user-attachments/assets/04261baa-e47a-4638-911f-7aef41935e57" />
 </p>
 
+## 🔗 애플리케이션 구조 (이미지)
 <p align="center">
    <img  alt="image" src="https://github.com/user-attachments/assets/ce5840b2-7394-47ba-ab4d-92574ff5e502"/>
 </p>
