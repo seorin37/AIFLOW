@@ -227,8 +227,8 @@
 
 | 구분             | Input 이미지                | Ground Truth Mask             | Predicted Mask                |
 |-----------------|----------------------------|-------------------------------|-------------------------------|
-| 오염(진한) 사례 | ![오염 사례](mobile_app/assets/images/example_dirt1.jpg) | ![GT](mobile_app/assets/images/mask_dirt1_gt.png) | <img width="124" alt="image" src="https://github.com/user-attachments/assets/722b3065-9e4e-4f2b-b3d2-295b7cfc131c" />|
-| 오염(깨끗) 사례 | ![깨끗 사례](mobile_app/assets/images/example_clean1.jpg) | (검은색 이미지)               | (검은색 이미지)               |
+| 오염(진한) 사례 | <img width="170" alt="image" src="https://github.com/user-attachments/assets/8e8f2367-7d90-42fb-a0dc-3923e42029fd" />| <img width="166" alt="image" src="https://github.com/user-attachments/assets/5c5a99da-43e8-4a1d-aace-b84e70dc12b2" />| <img width="165" alt="image" src="https://github.com/user-attachments/assets/f4112f11-3b35-4e55-a1b6-b2524293ba16" />|
+| 오염(깨끗) 사례 |<img width="159" alt="image" src="https://github.com/user-attachments/assets/2217de06-b8f8-49d3-92aa-96ff918b09d1" />|<img width="162" alt="image" src="https://github.com/user-attachments/assets/e6d99621-6f5e-405d-87f9-6b95fafdad74" />| <img width="162" alt="image" src="https://github.com/user-attachments/assets/f0cda9e0-a9c3-4985-b530-0fae73ba7669" />|
 
 - **평가 지표**  
   - Validation IoU: 0.7288  
