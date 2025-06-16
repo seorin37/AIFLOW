@@ -11,22 +11,24 @@
 
 ## 📁 디렉토리 구조
 
+```
 AI_model/
 │
-├── train_classification.py # 재질 분류 (plastic vs paper) 학습 스크립트
-├── test_classification.py # 분류 모델 테스트
-├── model_classification.py # EfficientNet 기반 분류 모델 정의
+├── train_classification.py       # 재질 분류 (plastic vs paper) 학습 스크립트
+├── test_classification.py        # 분류 모델 테스트
+├── model_classification.py       # EfficientNet 기반 분류 모델 정의
 │
-├── train_contamination.py # 오염도 segmentation 학습
-├── test_contamination.py # 오염도 테스트 및 등급 분류
-├── model_contamination.py # UNet + HybridLoss (BCE + Dice + Focal)
+├── train_contamination.py        # 오염도 segmentation 학습
+├── test_contamination.py         # 오염도 테스트 및 등급 분류
+├── model_contamination.py        # UNet + HybridLoss (BCE + Dice + Focal)
 │
-├── train_vinyl.py # 비닐 감지 segmentation 학습
-├── test_vinyl.py # 비닐 여부 테스트 및 판단
-├── model_vinyl.py # Vinyl segmentation 모델 및 손실 함수 정의
+├── train_vinyl.py                # 비닐 감지 segmentation 학습
+├── test_vinyl.py                 # 비닐 여부 테스트 및 판단
+├── model_vinyl.py                # Vinyl segmentation 모델 및 손실 함수 정의
 │
-├── image_test_flow.py # 전체 파이프라인 통합 실행 스크립트
-└── README.md # 프로젝트 설명 파일
+├── image_test_flow.py            # 전체 파이프라인 통합 실행 스크립트
+└── README.md                     # 프로젝트 설명 파일
+```
 
 ---
 
