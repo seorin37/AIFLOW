@@ -57,7 +57,6 @@ AIFLOW-Backend/
   { "result": "plastic_clean" }  // 또는 "plastic_slight" / "plastic_heavy"
 
 
-
 - **500 Internal Server Error**
 
 ```
