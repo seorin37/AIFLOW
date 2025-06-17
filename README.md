@@ -22,7 +22,7 @@ AIFLOW-Backend는 이미지 분류 및 분석을 위한 Flask 기반 REST API �
 
 ## 디렉토리 구조
 
-'''
+```
 AIFLOW-Backend/
 ├── clf_model.py           # 재질 분류 (paper vs plastic)
 ├── vinyl_model.py         # 비닐 검출 (플라스틱 대상)
@@ -34,7 +34,7 @@ AIFLOW-Backend/
     ├── best_classification_model.pth
     ├── best_vinyl_model.pth
     └── best_contamination_model.pth
-
+```
 
 ---
 
