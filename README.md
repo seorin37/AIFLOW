@@ -49,15 +49,20 @@ AIFLOW-Backend/
 
 #### 응답
 
-- **200 OK**  
-  ```json
+- **200 OK**
+  
+  ```
   { "result": "paper" }
   { "result": "plastic_with_vinyl" }
   { "result": "plastic_clean" }  // 또는 "plastic_slight" / "plastic_heavy"
 
+```
+
 - **500 Internal Server Error**
+
   '''
   { "error": "에러 메시지" }
+```
 
 ---
 
