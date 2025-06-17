@@ -1,45 +1,83 @@
-# AIFLOW  
-# server.py - Flask 기반 이미지 분류 APIFlask 기반 이미지 분류 API  
-이미지를 기반으로 아래의 3단계 분류 과정을 거쳐 **재질과 오염 상태**를 판단하는 Flask 서버  
-  
-1. **종이 vs 플라스틱** 분류  
-2. **플라스틱일 경우 비닐 유무 감지**  
-3. **비닐이 없을 경우 오염도 평가 (clean / slight / heavy)**  
-  
-**📖 API 사용법** 
-"server.py"에 clf_model.py, ctm_model.py, vinyl_model 파일들 불러오기  
+# AIFLOW-Backend
 
-from clf_model import predict_material  
-from vinyl_model import detect_vinyl  
-from ctm_model import predict_dirty_level  
+## 개요
+AIFLOW-Backend는 이미지 분류 및 분석을 위한 Flask 기반 REST API 서비스입니다. 세 가지 주요 기능을 하나의 파이프라인으로 연결하여 제공합니다:
 
-플러터에서 이미지 업로드 후 예측 결과를 JSON 형식으로 반환  
-응답 형태  
--종이: {"result": "paper"}  
--비닐있는 플라스틱: {"result": "plastic_with_vinyl"}  
--비닐없는 플라스틱 오염도 평가: {"result": "plastic_clean" //또는 plastic_slight, plastic_heavy}  
+1. **재질 분류**: 종이(paper) vs 플라스틱(plastic)  
+2. **비닐 검출**: 플라스틱 이미지에서 비닐(foil) 유무 판별  
+3. **오염도 평가**: 비닐이 없는 플라스틱 이미지에서 오염도(`clean`, `slight`, `heavy`) 평가  
+
+---
+
+## 주요 기능
+- **3단계 파이프라인**: 분류 → 비닐 검출 → 오염도 평가  
+- **사전 학습된 모델** (`checkpoints/` 폴더)  
+  - `best_classification_model.pth`  
+  - `best_vinyl_model.pth`  
+  - `best_contamination_model.pth`  
+- **간단한 REST API**: `/upload` 엔드포인트  
+- **오류 처리**: 예측 중 발생하는 오류를 JSON 형태로 반환  
+
+---
+
+## 디렉토리 구조
+
+'''
+AIFLOW-Backend/
+├── clf_model.py           # 재질 분류 (paper vs plastic)
+├── vinyl_model.py         # 비닐 검출 (플라스틱 대상)
+├── ctm_model.py           # 오염도 평가 (플라스틱, 비닐 없음)
+├── server.py              # Flask API 서버
+├── uploads/               # 업로드된 이미지 임시 저장
+├── requirements.txt       # 의존성 목록
+└── checkpoints/           # 사전 학습된 모델 파일
+    ├── best_classification_model.pth
+    ├── best_vinyl_model.pth
+    └── best_contamination_model.pth
 
 
-# 1. clf_model.py (predict_material)
-from model_classification import get_model
-분류 모델 불러와서 예측하였을 때 결과를 0: plastic, 1: paper로 이진 분류함.
+---
 
-# 2. vinyl_model.py (detect_vinyl)
-from model_vinyl import get_model
+## API 사용법
 
-비닐 감지 모델 불러와서 예측하였을 때 vinyl_ratio>=0.02면, return True(비닐 있음).
+### POST `/upload`  
+이미지를 업로드하여 세 단계 파이프라인을 실행하고 결과를 반환합니다.
 
-# 2. ctm_model.py (predict_dirty_level)
-from model_contamination import get_model
+#### 요청
+- **Content-Type**: `multipart/form-data`
+- **Form 필드**: `file` (이미지 파일)
 
-오염도 예측 모델 불러와서 예측하였을 때
-contamination을 오염도 기준 분류 함수(classify_contamination)에 따라서 "clean, slight, heavy"로 구분함.
+#### 응답
 
-def classify_contamination(contamination: float) -> str:
-    if contamination < 0.01:
-        return 'clean'
-    elif contamination < 0.20:
-        return 'slight'
-    else:
-        return 'heavy'
+- **200 OK**  
+  ```json
+  { "result": "paper" }
+  { "result": "plastic_with_vinyl" }
+  { "result": "plastic_clean" }  // 또는 "plastic_slight" / "plastic_heavy"
+
+- **500 Internal Server Error**
+  '''
+  { "error": "에러 메시지" }
+
+---
+
+## 모델 파일 설명
+
+### `clf_model.py`
+- 재질 분류 모델 로드 및 추론  
+- **입력 이미지**: 224×224 리사이즈 및 정규화  
+- **예측 임계값**: `0.5`  
+
+### `vinyl_model.py`
+- U-Net 기반 세그멘테이션 모델 로드  
+- Albumentations 전처리 → 시그모이드 마스크 산출  
+- **마스크 비율 > 2%** → 비닐 존재로 판정  
+
+### `ctm_model.py`
+- 오염도 세그멘테이션 모델 로드  
+- 시그모이드 마스크로부터 오염 픽셀 비율 계산  
+- **분류 기준**  
+  - `<1%`: `clean`  
+  - `1%–20%`: `slight`  
+  - `>20%`: `heavy`  
 
