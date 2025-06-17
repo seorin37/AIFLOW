@@ -60,7 +60,7 @@ AIFLOW-Backend/
 
 - **500 Internal Server Error**
 
-  '''
+```
   { "error": "에러 메시지" }
 ```
 
